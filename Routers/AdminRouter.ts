@@ -15,7 +15,7 @@ router.post('/makeInvite', multipartMiddleware, async function (req: Request, re
 
 
     const sentKey = req.body.key as string;
-    console.log(sentKey);
+
 
     if (sentKey !== adminKey) {
         res.status(401).json({
@@ -33,7 +33,7 @@ router.post('/makeInvite', multipartMiddleware, async function (req: Request, re
         }
     });
 
-    console.log(insertInvite);
+
 
     res.status(200).json({
         success: true,
