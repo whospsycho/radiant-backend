@@ -22,7 +22,12 @@ const prisma = new PrismaClient()
 const domains = ["@radiant.cool", "@shiba.bar", "@floppa.email", "@catgirls.work", "@otters.shop", "@webmail.surf", "@skeeet.cc", "@catgirls.digital", "@bigfloppa.monster", "@lean.monster ", "@cope.wtf", "@hypixel.pro", "@my-balls-it.ch", "@allah.agency", "@thighs.media", "@monke.party", "@femboy.media", "@floppa-is.art", "@floppa.company", "@floppa.digital", "@fortnite.bar", "@fakenitro.store", "@crisium.one", "@shibeclub.tech", "@shibe-in.space", "@lunarclient.site", "@cock.red", "@indianscammer.email", "@badlionclient.info", "@fart.host", "@grabify.website", "@scamming.email", "@femboys.email", "@rapist.email", "@ching-chong-wing.wang", "@e-z.email"]
 
 
-
+app.use(cors({
+    origin: 'https://radiant.cool',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
+    credentials: true
+}));
 
 app.use(helmet.noSniff())
 app.use(helmet.xssFilter())
@@ -37,12 +42,7 @@ app.set('x-powered-by', 'radiant.cool');
 
 
 
-app.use(cors({
-    origin: 'https://radiant.cool',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
-    credentials: true
-}));
+
 
 
 
