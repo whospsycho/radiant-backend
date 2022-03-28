@@ -60,6 +60,14 @@ app.post('/register', multipartMiddleware, async function (req: any, res: any) {
         }
     });
 
+    if (!deleteInvite) {
+        res.status(401).json({
+            success: false,
+            error: 'Invalid invite'
+        });
+        return;
+    }
+
 
 
 
