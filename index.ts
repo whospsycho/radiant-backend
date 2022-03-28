@@ -39,6 +39,11 @@ app.use(cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail
 app.options('*', cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail.radiant.cool', 'https://api.radiant.cool', 'http://127.0.0.1:3000', 'http://127.0.0.1:3001', 'http://127.0.0.1:3002'] }));
 
 app.post('/register', multipartMiddleware, async function (req: any, res: any) {
+    res.setHeader('Access-Control-Allow-Origin', 'https://radiant.cool');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
+
     const password = req.body.password as string;
     const email = req.body.email as string;
     const domain = req.body.domain as string;
