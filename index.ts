@@ -36,7 +36,7 @@ app.set('x-powered-by', 'radiant.cool');
 app.set("Access-Control-Allow-Origin", cors.origin);
 
 const corsOptions = {
-    origin: '*',
+    origin: 'https://radiant.cool',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
