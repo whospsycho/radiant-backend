@@ -33,14 +33,14 @@ app.use('/admin', AdminRouter)
 
 app.set('x-powered-by', 'radiant.cool');
 
-app.set("Access-Control-Allow-Origin", 'http://radiant.cool');
+app.set("Access-Control-Allow-Origin", 'https://radiant.cool');
 app.set("Access-Control-Allow-Credentials", true);
 app.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 app.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
 
 const corsOptions = {
-    origin: 'http://radiant.cool',
+    origin: 'https://radiant.cool',
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
