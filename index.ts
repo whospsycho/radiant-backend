@@ -35,10 +35,16 @@ app.set('x-powered-by', 'radiant.cool');
 
 app.set("Access-Control-Allow-Origin", cors.origin);
 
-app.use(cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail.radiant.cool', 'https://api.radiant.cool', 'http://127.0.0.1:3000', 'http://127.0.0.1:3001', 'http://127.0.0.1:3002'], methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'] }))
-app.options('*', cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail.radiant.cool', 'https://api.radiant.cool', 'http://127.0.0.1:3000', 'http://127.0.0.1:3001', 'http://127.0.0.1:3002'] }));
+const corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
-app.post('/register', multipartMiddleware, async function (req: any, res: any) {
+
+
+
+
+app.post('/register', multipartMiddleware, cors(corsOptions), async function (req: any, res: any) {
     res.setHeader('Access-Control-Allow-Origin', 'https://radiant.cool');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
