@@ -49,9 +49,7 @@ app.set('x-powered-by', 'radiant.cool');
 
 
 app.post('/register', multipartMiddleware, async function (req: any, res: any) {
-    res.setHeader('Access-Control-Allow-Origin', 'https://radiant.cool');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Origin', "*")
 
 
     const password = req.body.password as string;
