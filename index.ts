@@ -31,8 +31,8 @@ app.use('/admin', AdminRouter)
 
 app.set('x-powered-by', 'radiant.cool');
 
-app.use(cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail.radiant.cool', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'], methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'] }))
-app.options('*', cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail.radiant.cool', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'] }));
+app.use(cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail.radiant.cool', 'https://api.radiant.cool', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'], methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'] }))
+app.options('*', cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail.radiant.cool', 'https://api.radiant.cool', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002'] }));
 
 app.post('/register', multipartMiddleware, async function (req: any, res: any) {
     const password = req.body.password as string;
