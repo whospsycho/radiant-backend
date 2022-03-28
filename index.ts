@@ -26,16 +26,14 @@ const domains = ["@radiant.cool", "@shiba.bar", "@floppa.email", "@catgirls.work
 
 app.use(helmet.noSniff())
 app.use(helmet.xssFilter())
-app.use(function (req: any, res: any, next: any) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-})
+
 
 
 app.use('/admin', AdminRouter)
 
 app.set('x-powered-by', 'radiant.cool');
+
+app.set("Access-Control-Allow-Origin", cors.origin);
 
 app.use(cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail.radiant.cool', 'https://api.radiant.cool', 'http://127.0.0.1:3000', 'http://127.0.0.1:3001', 'http://127.0.0.1:3002'], methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'] }))
 app.options('*', cors({ credentials: true, origin: ['https://radiant.cool', 'https://mail.radiant.cool', 'https://api.radiant.cool', 'http://127.0.0.1:3000', 'http://127.0.0.1:3001', 'http://127.0.0.1:3002'] }));
