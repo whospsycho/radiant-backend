@@ -26,6 +26,12 @@ const domains = ["@radiant.cool", "@shiba.bar", "@floppa.email", "@catgirls.work
 
 app.use(helmet.noSniff())
 app.use(helmet.xssFilter())
+app.use(function (req: any, res: any, next: any) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+})
+
 
 app.use('/admin', AdminRouter)
 
