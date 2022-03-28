@@ -33,28 +33,22 @@ app.use('/admin', AdminRouter)
 
 app.set('x-powered-by', 'radiant.cool');
 
-app.set("Access-Control-Allow-Origin", 'https://radiant.cool');
-app.set("Access-Control-Allow-Credentials", true);
-app.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-app.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
 
-const corsOptions = {
+
+
+app.use(cors({
     origin: 'https://radiant.cool',
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Headers'],
-
-}
-
-app.use(cors(corsOptions));
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Headers', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Credentials'],
+    credentials: true
+}));
 
 
 
 
 
-app.post('/register', multipartMiddleware, cors(corsOptions), async function (req: any, res: any) {
+app.post('/register', multipartMiddleware, async function (req: any, res: any) {
     res.setHeader('Access-Control-Allow-Origin', 'https://radiant.cool');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
