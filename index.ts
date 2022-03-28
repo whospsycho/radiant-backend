@@ -31,9 +31,18 @@ app.use(
             'http://localhost:3000/',
             'http://localhost:3001/',
         ],
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     })
 );
+
+app.options('*', cors({
+    credentials: true,
+    origin: [
+        'https://www.radiant.cool/',
+        'https://radiant.cool/',
+        'http://localhost:3000/',
+        'http://localhost:3001/',
+    ],
+}));
 
 app.use(helmet.noSniff())
 app.use(helmet.xssFilter())
