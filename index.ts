@@ -33,7 +33,7 @@ app.use('/admin', AdminRouter)
 
 app.set('x-powered-by', 'radiant.cool');
 
-app.set("Access-Control-Allow-Origin", cors.origin);
+app.set("Access-Control-Allow-Origin", 'https://radiant.cool');
 app.set("Access-Control-Allow-Credentials", true);
 
 const corsOptions = {
