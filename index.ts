@@ -27,10 +27,11 @@ app.use(
     cors({
         credentials: true,
         origin: [
-            'https://www.radiant.cool/',
-            'https://radiant.cool/',
-            'http://localhost:3000/',
-            'http://localhost:3001/',
+            'https://www.radiant.cool',
+            'https://radiant.cool',
+            'http://localhost:3000',
+            'http://localhost:3001',
+            'https://api.radiant.cool',
         ],
     })
 );
@@ -38,10 +39,11 @@ app.use(
 app.options('*', cors({
     credentials: true,
     origin: [
-        'https://www.radiant.cool/',
-        'https://radiant.cool/',
-        'http://localhost:3000/',
-        'http://localhost:3001/',
+        'https://www.radiant.cool',
+        'https://radiant.cool',
+        'http://localhost:3000',
+        'http://localhost:3001',
+        'https://api.radiant.cool',
     ],
 }));
 
