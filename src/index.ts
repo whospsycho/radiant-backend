@@ -27,6 +27,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "https://api.radiant.cool",
+      "https://mail.radiant.cool",
     ],
     credentials: true,
   })
