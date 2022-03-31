@@ -1,54 +1,30 @@
-import e, { Request, Response, Router } from 'express';
-const multipart = require('connect-multiparty');
-const multipartMiddleware = multipart();
-const path = require("path");
-const router = Router();
-const dotenv = require('dotenv').config()
-const adminKey = process.env.ADMIN_KEY;
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { client } from "..";
+import { Router } from "express";
+import VerifyAdmin from "../middleware/VerifyAdmin";
+import { generateInviteCode } from "../Utils/Generate";
 
-import makeInvite from '../Utils/makeInvite';
+const adminRouter = Router();
 
-router.post('/makeInvite', multipartMiddleware, async function (req: Request, res: Response) {
+adminRouter.post("/makeInvite", VerifyAdmin, async (_, res) => {
+  const code = generateInviteCode();
 
+  const invite = await client.invite.create({
+    data: {
+      code,
+    },
+  });
 
-
-    const sentKey = req.body.key as string;
-
-
-    if (sentKey !== adminKey) {
-        res.status(401).json({
-            success: false,
-            error: 'Invalid key'
-        });
-        return;
-    }
-
-    const invite = makeInvite();
-
-    const insertInvite = await prisma.invites.create({
-        data: {
-            code: invite
-        }
+  if (!invite) {
+    return res.status(500).json({
+      success: false,
+      error: "Failed to create invite",
     });
+  }
 
-
-
-    res.status(200).json({
-        success: true,
-        invite
-    });
-
-
-
-
-
-
-
-
-
+  res.json({
+    success: true,
+    invite,
+  });
 });
 
-
-export default router;
+export default adminRouter;
