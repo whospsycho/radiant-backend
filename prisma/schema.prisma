@@ -11,7 +11,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model invites {
+model Invite {
   code      String   @id @map("_id")
   createdAt DateTime @updatedAt
+
+  @@map("invites")
 }
