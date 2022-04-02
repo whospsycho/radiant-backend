@@ -8,7 +8,7 @@ import Verify, { VerifySchema } from "../middleware/Verify";
 
 const authRouter = Router();
 
-authRouter.get(
+authRouter.post(
   "/register",
   Verify(
     Joi.object({
