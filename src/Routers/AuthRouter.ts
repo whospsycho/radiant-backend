@@ -77,9 +77,8 @@ authRouter.post(
         error: "Something went wrong creating your account",
         errors: error.response.data,
       });
-    })
-    
-    if (registerReq.data?) {
+    }).then((resp) => {
+   
        await client.invite.delete({
           where: {
             code,
@@ -90,7 +89,7 @@ authRouter.post(
          success: true,
          message: "Successfully created account",
        });
-    }
+    })
   }
 );
 
