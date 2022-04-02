@@ -67,7 +67,7 @@ authRouter.post(
         .append("quota", "0"), // 0 = unlimited
       {
         headers: {
-          Authorization: `Basic ${env.MAIL_TOKEN}`,
+          'Authorization': `Basic ${env.MAIL_TOKEN}`,
         },
       }
     );
