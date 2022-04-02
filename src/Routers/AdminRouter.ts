@@ -8,7 +8,7 @@ const adminRouter = Router();
 adminRouter.post("/makeInvite", VerifyAdmin, async (_, res) => {
   const code = generateInviteCode();
 
-  const invite = await client.invite.create({
+  const invite = await client.invites.create({
     data: {
       code,
     },
