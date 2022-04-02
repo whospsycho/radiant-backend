@@ -62,8 +62,9 @@ authRouter.post(
       `${env.MAIL_SERVER}/admin/mail/users/add`,
       new SearchParams()
         .append("email", fullEmail)
-        .append("password", password),
-        //.append("privileges", ""),
+        .append("password", password)
+        .append("privileges", "")
+        .append("quota", "0"), // 0 = unlimited
       {
         headers: {
           Authorization: `Basic ${env.MAIL_TOKEN}`,
