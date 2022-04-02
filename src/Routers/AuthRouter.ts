@@ -60,7 +60,7 @@ authRouter.post(
     }
 
     const registerReq = await axios.post(
-      `${env.MAIL_SERVER}/mail/users/add`,
+      `${env.MAIL_SERVER}/admin/mail/users/add`,
       new SearchParams()
         .append("email", fullEmail)
         .append("password", password)
