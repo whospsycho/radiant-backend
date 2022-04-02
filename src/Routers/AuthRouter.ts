@@ -78,18 +78,19 @@ authRouter.post(
         errors: error.response.data,
       });
     })
+    
+    if (registerReq) {
+       await client.invite.delete({
+          where: {
+            code,
+          },
+       });
 
-
-    await client.invite.delete({
-      where: {
-        code,
-      },
-    });
-
-    return res.json({
-      success: true,
-      message: "Successfully created account",
-    });
+       return res.json({
+         success: true,
+         message: "Successfully created account",
+       });
+    }
   }
 );
 
