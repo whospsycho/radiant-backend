@@ -81,17 +81,18 @@ authRouter.post(
         errors: error.response.data,
       });
     }).then(async (resp) => {
-   
-       await client.invite.delete({
-          where: {
-            code,
-          },
-       });
+       if (resp.status === 200) {
+         await client.invite.delete({
+            where: {
+              code,
+            },
+         });
 
-       return res.json({
-         success: true,
-         message: "Successfully created account",
-       });
+         return res.json({
+           success: true,
+           message: "Successfully created account",
+         });
+       }
     })
   }
 );
