@@ -71,7 +71,7 @@ authRouter.post(
         },
       }
     ).catch(function (error) { 
-      console.log(`An error occured. (data: ${error.response.data}, headers: ${error.response.headers})`);
+      console.log(`An error occured. (reason?: ${error.response.headers["x-reason"]})`);
       return res.status(401).json({
         success: false,
         error: "Something went wrong creating your account",
