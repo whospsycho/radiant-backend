@@ -70,14 +70,14 @@ authRouter.post(
           'Authorization': `Basic ${env.MAIL_TOKEN}`,
         },
       }
-    ).catch(function (error) { 
+    ).catch(async (error) { 
       console.log(`An error occured. (reason?: ${error.response.headers["x-reason"]})`);
       return res.status(401).json({
         success: false,
         error: "Something went wrong creating your account",
         errors: error.response.data,
       });
-    }).then((resp) => {
+    }).then(async (resp) => {
    
        await client.invite.delete({
           where: {
