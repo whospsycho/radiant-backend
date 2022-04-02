@@ -70,7 +70,7 @@ authRouter.post(
           'Authorization': `Basic ${env.MAIL_TOKEN}`,
         },
       }
-    ).catch(async (error) { 
+    ).catch(async (error) => { 
       console.log(`An error occured. (reason?: ${error.response.headers["x-reason"]})`);
       return res.status(401).json({
         success: false,
