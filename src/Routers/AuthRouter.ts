@@ -42,8 +42,7 @@ authRouter.post(
       });
     }
 
-    // this doesnt make sense unless the email is like yepp@ and the domain is ok.com
-    // aka idk where the @ sign would come in (if it does at all)
+    // fullEmail = "test" + "@domain.tld"
     const fullEmail = email + domain;
 
     const isValidEmail = VerifySchema(
