@@ -79,7 +79,7 @@ authRouter.post(
       });
     })
     
-    if (registerReq) {
+    if (registerReq.data) {
        await client.invite.delete({
           where: {
             code,
