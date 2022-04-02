@@ -70,7 +70,7 @@ authRouter.post(
           'Authorization': `Basic ${env.MAIL_TOKEN}`,
         },
       }
-    ).catch(function (error) { console.log(`An error occured. (data: ${error.response.data}, headers: ${error.response.headers})`); })
+    ).catch(function (error) { return console.log(`An error occured. (data: ${error.response.data}, headers: ${error.response.headers})`); })
 
     if (registerReq.status !== 200) {
       return res.status(401).json({
