@@ -70,15 +70,15 @@ authRouter.post(
           'Authorization': `Basic ${env.MAIL_TOKEN}`,
         },
       }
-    ).catch(function (error) { return console.log(`An error occured. (data: ${error.response.data}, headers: ${error.response.headers})`); })
-
-    if (registerReq.status !== 200) {
+    ).catch(function (error) { 
+      console.log(`An error occured. (data: ${error.response.data}, headers: ${error.response.headers})`);
       return res.status(401).json({
         success: false,
         error: "Something went wrong creating your account",
-        errors: registerReq.data,
+        errors: error.response.data,
       });
-    }
+    })
+
 
     await client.invite.delete({
       where: {
