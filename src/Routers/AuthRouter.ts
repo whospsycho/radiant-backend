@@ -1,6 +1,7 @@
 import Joi from "joi";
 import axios from "axios";
 import { client } from "..";
+import { env } from "node:process";
 import { Router, Request } from "express";
 import Domains from "../Utils/Domains.json";
 import SearchParams from "../Utils/SearchParams";
@@ -59,14 +60,14 @@ authRouter.post(
     }
 
     const registerReq = await axios.post(
-      `${process.env.MAIL_SERVER}/mail/users/add`,
+      `${env.MAIL_SERVER}/mail/users/add`,
       new SearchParams()
         .append("email", fullEmail)
         .append("password", password)
         .append("privileges", ""),
       {
         headers: {
-          Authorization: `Basic ${process.env.MAIL_TOKEN}`,
+          Authorization: `Basic ${env.MAIL_TOKEN}`,
         },
       }
     );

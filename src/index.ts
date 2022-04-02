@@ -1,6 +1,7 @@
 import "dotenv/config";
 import cors from "cors";
 import helmet from "helmet";
+import { env } from "node:process"
 import express, {json} from "express";
 import { PrismaClient } from "@prisma/client";
 import AuthRouter from "./Routers/AuthRouter";
@@ -37,6 +38,6 @@ app.use(
 app.use("/auth", AuthRouter);
 app.use("/admin", AdminRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log("Listening on port " + process.env.PORT);
+app.listen(env.PORT, () => {
+  console.log("Listening on port " + env.PORT);
 });
