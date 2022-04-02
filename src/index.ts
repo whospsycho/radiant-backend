@@ -1,7 +1,7 @@
 import "dotenv/config";
 import cors from "cors";
 import helmet from "helmet";
-import express from "express";
+import express, {json} from "express";
 import { PrismaClient } from "@prisma/client";
 import AuthRouter from "./Routers/AuthRouter";
 import AdminRouter from "./Routers/AdminRouter";
@@ -10,6 +10,7 @@ const app = express();
 // personally id use module aug to do this but wtv
 export const client = new PrismaClient();
 
+app.use(json())
 app.set("x-powered-by", "radiant.cool");
 
 app.use(
