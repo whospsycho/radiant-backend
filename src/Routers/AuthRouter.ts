@@ -1,7 +1,7 @@
 import Joi from "joi";
 import axios from "axios";
 import { client } from "..";
-import { Router } from "express";
+import { Router, Request } from "express";
 import Domains from "../Utils/Domains.json";
 import SearchParams from "../Utils/SearchParams";
 import Verify, { VerifySchema } from "../middleware/Verify";
@@ -18,7 +18,7 @@ authRouter.post(
       invite: Joi.string().required(),
     })
   ),
-  async (req, res) => {
+  async (req: Request, res) => {
     const { email, password, domain, invite: code } = req.body;
 
     const inviteUsed = await client.invite.findFirst({
