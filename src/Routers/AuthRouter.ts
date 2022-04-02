@@ -21,7 +21,7 @@ authRouter.get(
   async (req, res) => {
     const { email, password, domain, invite: code } = req.body;
 
-    const inviteUsed = await client.invite.findFirst({
+    const inviteUsed = await client.invites.findFirst({
       where: {
         code,
       },
@@ -79,7 +79,7 @@ authRouter.get(
       });
     }
 
-    await client.invite.delete({
+    await client.invites.delete({
       where: {
         code,
       },
