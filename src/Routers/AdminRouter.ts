@@ -1,30 +1,47 @@
-import { client } from "..";
-import { Router } from "express";
+import { Router } from "../Typings";
+
 import VerifyAdmin from "../middleware/VerifyAdmin";
 import { generateInviteCode } from "../Utils/Generate";
+import { Router as _Router } from "express";
 
-const adminRouter = Router();
+import App from "../app";
+import { server } from "..";
+import Client from "../database";
+class AdminRouter implements Router {
+  app: App = server;
 
-adminRouter.post("/makeInvite", VerifyAdmin, async (_, res) => {
-  const code = generateInviteCode();
+  public path: string = "/makeInvite";
+  public router = _Router();
 
-  const invite = await client.invite.create({
-    data: {
-      code,
-    },
-  });
+  client = Client;
 
-  if (!invite) {
-    return res.status(500).json({
-      success: false,
-      error: "Failed to create invite",
-    });
+  constructor(env: unknown) {
+    this.initializeRoute();
   }
 
-  res.json({
-    success: true,
-    invite,
-  });
-});
+  private initializeRoute() {
+    this.router.post(this.path, VerifyAdmin, async (_ , res) => {
+      const code = generateInviteCode();
 
-export default adminRouter;
+      const invite = await this.client.invite.create({
+        data: {
+          code,
+        },
+      });
+    
+      if (!invite) {
+        return res.status(500).json({
+          success: false,
+          error: "Failed to create invite",
+        });
+      }
+    
+      res.json({
+        success: true,
+        invite,
+      });
+    }) 
+  }
+}
+
+export default AdminRouter;

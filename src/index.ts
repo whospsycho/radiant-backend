@@ -1,43 +1,28 @@
 import "dotenv/config";
-import cors from "cors";
-import helmet from "helmet";
-import { env } from "node:process"
-import express, {json} from "express";
-import { PrismaClient } from "@prisma/client";
-import AuthRouter from "./Routers/AuthRouter";
+
+import {
+  port,
+  str,
+  cleanEnv,
+} from 'envalid';
+
+import App from "./app";
+
 import AdminRouter from "./Routers/AdminRouter";
+import AuthRouter from "./Routers/AuthRouter";
 
-const app = express();
-// personally id use module aug to do this but wtv
-export const client = new PrismaClient();
-
-app.use(json())
-app.set("x-powered-by", "radiant.cool");
-
-app.use(
-  helmet({
-    noSniff: true,
-    xssFilter: true,
-  })
-);
-
-app.use(
-  cors({
-    origin: [
-      "https://www.radiant.cool",
-      "https://radiant.cool",
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://api.radiant.cool",
-      "https://mail.radiant.cool",
-    ],
-    credentials: true,
-  })
-);
-
-app.use("/auth", AuthRouter);
-app.use("/admin", AdminRouter);
-
-app.listen(env.PORT, () => {
-  console.log("Listening on port " + env.PORT);
+const env = cleanEnv(process.env, {
+  PORT: port(),
+  ADMIN_API_KEY: str(),
+  MAIL_TOKEN: str(),
+  MAIL_SERVER: str(),
 });
+
+export const server = new App(
+  [
+    new AdminRouter(env),
+    new AuthRouter(env)
+  ]
+);
+
+server.listen( env.PORT );

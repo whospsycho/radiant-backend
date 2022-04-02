@@ -1,96 +1,122 @@
+import { Router as _Router, Request, Response } from "express";
+
+import Client from "../database";
+import { Router } from "../Typings";
+
 import Joi from "joi";
 import axios from "axios";
-import { client } from "..";
-import { env } from "node:process";
-import { Router, Request } from "express";
-import Domains from "../Utils/Domains.json";
-import SearchParams from "../Utils/SearchParams";
 import Verify, { VerifySchema } from "../middleware/Verify";
 
-const authRouter = Router();
+import Domains from "../Utils/Domains.json";
+import SearchParams from "../Utils/SearchParams";
 
-authRouter.post(
-  "/register",
-  Verify(
-    Joi.object({
-      email: Joi.string().required(),
-      password: Joi.string().required(),
-      domain: Joi.string().required(),
-      invite: Joi.string().required(),
-    })
-  ),
-  async (req: Request, res) => {
-    const { email, password, domain, invite: code } = req.body;
+import App from "../app";
+import { server } from "..";
 
-    const inviteUsed = await client.invite.findFirst({
-      where: {
-        code,
-      },
-    });
+class AuthRouter implements Router {
+  app: App = server;
 
-    if (!inviteUsed) {
-      return res.status(401).json({
-        success: false,
-        error: "Invalid Invite",
-      });
-    }
+  public path: string = "/register";
+  public router = _Router();
 
-    if (!Domains.includes(domain)) {
-      return res.status(401).json({
-        success: false,
-        error: "The domain provided is not a registered radiant domain",
-      });
-    }
+  client = Client;
+  env: any;
 
-    // fullEmail = "test" + "@domain.tld"
-    const fullEmail = email + domain;
+  constructor(env: any) {
+    this.initializeRoute();
 
-    const isValidEmail = VerifySchema(
-      Joi.object({ email: Joi.string().email() }),
-      { email: fullEmail }
-    );
-
-    if (!isValidEmail) {
-      return res.status(401).json({
-        success: false,
-        error: "Invalid Email",
-        errors: isValidEmail,
-      });
-    }
-
-    const registerReq = await axios.post(
-      `${env.MAIL_SERVER}/admin/mail/users/add`,
-      new SearchParams()
-        .append("email", fullEmail)
-        .append("password", password)
-        .append("privileges", "")
-        .append("quota", "0"), // 0 = unlimited
-      {
-        headers: {
-          Authorization: `Basic ${env.MAIL_TOKEN}`,
-        },
-      }
-    );
-
-    if (registerReq.status !== 200) {
-      return res.status(401).json({
-        success: false,
-        error: "Something went wrong creating your account",
-        errors: registerReq.data,
-      });
-    }
-
-    await client.invite.delete({
-      where: {
-        code,
-      },
-    });
-
-    return res.json({
-      success: true,
-      message: "Successfully created account",
-    });
+    this.env = env;
   }
-);
 
-export default authRouter;
+  private initializeRoute() {
+    this.router.post(this.path, 
+      Verify(
+        Joi.object({
+          email: Joi.string().required(),
+          password: Joi.string().required(),
+          domain: Joi.string().required(),
+          invite: Joi.string().required(),
+        })
+      ),
+      async (req: Request, res: Response) => {
+        const { email, password, domain, invite: code } = req.body;
+
+        const inviteUsed = await this.client.invite.findFirst({
+          where: {
+            code,
+          },
+        });
+    
+        if (!inviteUsed) {
+          return res.status(401).json({
+            success: false,
+            error: "Invalid Invite",
+          });
+        }
+    
+        if (!Domains.includes(domain)) {
+          return res.status(401).json({
+            success: false,
+            error: "The domain provided is not a registered radiant domain",
+          });
+        }
+    
+        // fullEmail = "test" + "@domain.tld"
+        const fullEmail = email + domain;
+    
+        const isValidEmail = VerifySchema(
+          Joi.object({ email: Joi.string().email() }),
+          { email: fullEmail }
+        );
+    
+        if (!isValidEmail) {
+          return res.status(401).json({
+            success: false,
+            error: "Invalid Email",
+            errors: isValidEmail,
+          });
+        }
+    
+        const registerReq = await axios.post(
+          `${this.env.MAIL_SERVER}/admin/mail/users/add`,
+          new SearchParams()
+            .append("email", fullEmail)
+            .append("password", password)
+            .append("privileges", "")
+            .append("quota", "0"), // 0 = unlimited
+          {
+            headers: {
+              'Authorization': `Basic ${this.env.MAIL_TOKEN}`,
+            },
+          }
+        ).catch(async (error) => { 
+          if (error.response) {
+            console.log(error.response.data)
+            console.log(error.response.headers)
+          }
+          return res.status(401).json({
+            success: false,
+            error: "Something went wrong creating your account",
+            errors: error.response.data,
+          });
+        }).then(async (resp) => {
+           if (resp.status === 200) {
+             await this.client.invite.delete({
+                where: {
+                  code,
+                },
+             });
+    
+             return res.json({
+               success: true,
+               message: "Successfully created account",
+             });
+           }
+        })
+      }
+    )
+  }
+
+}
+
+export default AuthRouter;
